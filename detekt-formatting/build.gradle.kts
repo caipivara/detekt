@@ -1,6 +1,6 @@
-import java.util.concurrent.Callable
-
-configurations.testImplementation.extendsFrom(configurations["kotlinTest"])
+configurations.testImplementation.configure {
+	extendsFrom(configurations["kotlinTest"])
+}
 configurations["compile"].isTransitive = false
 
 val ktlintVersion: String by project
