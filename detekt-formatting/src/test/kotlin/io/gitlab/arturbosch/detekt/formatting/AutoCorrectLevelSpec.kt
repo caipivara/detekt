@@ -38,16 +38,16 @@ class AutoCorrectLevelSpec : Spek({
 			val config = yamlConfig("/autocorrect/autocorrect-toplevel-false.yml")
 
 			it("should format the test file but not print to disc") {
-				val project = Paths.get(resource("before.kt"))
+				val project = Paths.get(resource("configTests/fixed.kt"))
 				val detekt = DetektFacade.create(ProcessingSettings(project, config))
-				val file = loadFile("before.kt")
+				val file = loadFile("configTests/fixed.kt")
 				val expected = file.text
 				val findings = detekt.run(project, listOf(file))
 						.findings.flatMap { it.value }
 
 				assertThat(wasLinted(findings)).isTrue()
 				assertThat(wasFormatted(file)).isTrue()
-				assertThat(loadFileContent("before.kt")).isEqualTo(expected)
+				assertThat(loadFileContent("configTests/fixed.kt")).isEqualTo(expected)
 			}
 		}
 
@@ -87,7 +87,7 @@ class AutoCorrectLevelSpec : Spek({
 })
 
 private fun runAnalysis(config: Config): Pair<KtFile, List<Finding>> {
-	val testFile = loadFile("before.kt")
+	val testFile = loadFile("configTests/fixed.kt")
 	val ruleSet = loadRuleSet<FormattingProvider>(config)
 	val findings = ruleSet.accept(testFile)
 	return testFile to findings
